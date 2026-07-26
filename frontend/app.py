@@ -7,11 +7,12 @@ import json
 st.set_page_config(layout="wide")
 st.title('SuperKart Sales Prediction UI')
 
-st.markdown("Enter the details below to get a sales prediction for a product in a store.")
-
 # Configuration for the backend API
 # IMPORTANT: Update this URL with the actual deployed URL of your Flask backend.
-BACKEND_API_URL = "http://localhost:7860/predict" # Placeholder: Change to your deployed backend URL
+BACKEND_API_BASE_URL = "http://localhost:7860" # Placeholder: Change to your deployed backend base URL
+
+st.markdown("### Single Prediction")
+st.markdown("Enter the details below to get a sales prediction for a product in a store.")
 
 with st.form("prediction_form"):
     st.subheader("Product Details")
@@ -45,9 +46,9 @@ with st.form("prediction_form"):
         }
 
         try:
-            # Send data to Flask API
+            # Send data to Flask API for single prediction
             headers = {'Content-Type': 'application/json'}
-            response = requests.post(BACKEND_API_URL, data=json.dumps(input_data), headers=headers)
+            response = requests.post(f"{BACKEND_API_BASE_URL}/predict", data=json.dumps(input_data), headers=headers)
             response.raise_for_status() # Raise an exception for HTTP errors
             predictions = response.json()
 
@@ -57,9 +58,42 @@ with st.form("prediction_form"):
                 st.error("No predictions received from the API.")
 
         except requests.exceptions.ConnectionError:
-            st.error(f"Connection Error: Could not connect to the backend API at {BACKEND_API_URL}. Please ensure the backend is running and the URL is correct.")
+            st.error(f"Connection Error: Could not connect to the backend API at {BACKEND_API_BASE_URL}/predict. Please ensure the backend is running and the URL is correct.")
         except requests.exceptions.Timeout:
-            st.error(f"Timeout Error: The request to the backend API at {BACKEND_API_URL} timed out.")
+            st.error(f"Timeout Error: The request to the backend API at {BACKEND_API_BASE_URL}/predict timed out.")
+        except requests.exceptions.RequestException as e:
+            st.error(f"An error occurred during the API request: {e}")
+        except json.JSONDecodeError:
+            st.error(f"Failed to decode JSON response. API returned: {response.text}")
+        except Exception as e:
+            st.error(f"An unexpected error occurred: {e}")
+
+st.markdown("--- # Section for batch prediction")
+st.subheader("Batch Prediction")
+
+# Allow users to upload a CSV file for batch prediction
+uploaded_file = st.file_uploader("Upload CSV file for batch prediction", type=["csv"])
+
+# Make batch prediction when the "Predict Batch" button is clicked
+if uploaded_file is not None:
+    if st.button("Predict Batch", type="primary"):
+        try:
+            # Send file to Flask API for batch prediction
+            files = {'file': uploaded_file.getvalue()}
+            response = requests.post(f"{BACKEND_API_BASE_URL}/predict_batch", files=files)
+            response.raise_for_status() # Raise an exception for HTTP errors
+            predictions = response.json()
+
+            if predictions:
+                st.success("Batch predictions completed!")
+                st.json(predictions) # Display the predictions as JSON
+            else:
+                st.error("No predictions received from the API.")
+
+        except requests.exceptions.ConnectionError:
+            st.error(f"Connection Error: Could not connect to the backend API at {BACKEND_API_BASE_URL}/predict_batch. Please ensure the backend is running and the URL is correct.")
+        except requests.exceptions.Timeout:
+            st.error(f"Timeout Error: The request to the backend API at {BACKEND_API_BASE_URL}/predict_batch timed out.")
         except requests.exceptions.RequestException as e:
             st.error(f"An error occurred during the API request: {e}")
         except json.JSONDecodeError:
