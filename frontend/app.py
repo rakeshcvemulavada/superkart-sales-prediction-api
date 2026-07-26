@@ -9,7 +9,7 @@ st.title('SuperKart Sales Prediction UI')
 
 # Configuration for the backend API
 # IMPORTANT: Update this URL with the actual deployed URL of your Flask backend.
-BACKEND_API_BASE_URL = "http://localhost:7860" # Placeholder: Change to your deployed backend base URL
+BACKEND_API_BASE_URL = "https://bug-free-umbrella-jr4r4qwxpgx42jpqw-7860.app.github.dev/" # Placeholder: Change to your deployed backend base URL
 
 st.markdown("### Single Prediction")
 st.markdown("Enter the details below to get a sales prediction for a product in a store.")
