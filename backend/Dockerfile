@@ -12,5 +12,5 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 # Define the command to start the application using Gunicorn with 4 worker processes
 # `-w 4`: Uses 4 worker processes for handling requests
 # `-b 0.0.0.0:7860`: Binds the server to port 7860 on all network interfaces
-# `superkart_sales_app:superkart_api`: Runs the Flask app
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:7860", "superkart_sales_app:superkart_api"]
+# `app:app`: Runs the Flask app (assuming your Flask app object is named 'app' in app.py)
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:7860", "app:app"]
