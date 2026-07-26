@@ -9,8 +9,9 @@ import numpy as np # For numerical operations (though not directly used for pred
 app = Flask(__name__)
 
 # Load the pre-trained model
-saved_model_path = r'/content/drive/MyDrive/Colab Notebooks/Model Deployment/backend/superkart_sales_model_v1_0.joblib'
-model = joblib.load(saved_model_path)
+# IMPORTANT: Use a relative path for the model when deployed inside a Docker container
+saved_model_path = 'superkart_sales_model_v1_0.joblib'
+model = joblib.load(os.path.join(os.getcwd(), saved_model_path))
 
 # Define a route for the home page (GET request)
 @app.route('/')
