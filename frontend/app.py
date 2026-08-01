@@ -20,7 +20,7 @@ with st.form("prediction_form"):
     product_sugar_content = st.selectbox('Product Sugar Content', ['Low Sugar', 'Regular', 'No Sugar'])
     product_allocated_area = st.number_input('Product Allocated Area', min_value=0.004, max_value=0.298, value=0.06, step=0.001, format="%.3f")
     product_mrp = st.number_input('Product MRP', min_value=31.0, max_value=266.0, value=150.0, step=1.0)
-    product_id_letter = st.selectbox('Product ID Letter', ['FD', 'NC', 'DR'])
+    product_id_char = st.selectbox('Product ID Character', ['FD', 'NC', 'DR']) # Changed to Product_Id_char
     product_category = st.selectbox('Product Category', ['Non-Perishables', 'Perishables'])
 
     st.subheader("Store Details")
@@ -40,7 +40,7 @@ with st.form("prediction_form"):
             "Store_Size": [store_size],
             "Store_Location_City_Type": [store_location_city_type],
             "Store_Type": [store_type],
-            "Product_Id_Letter": [product_id_letter],
+            "Product_Id_char": [product_id_char], # Changed to Product_Id_char
             "Store_Age_Years": [store_age_years],
             "Product_Category": [product_category]
         }
