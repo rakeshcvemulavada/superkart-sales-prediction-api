@@ -21,7 +21,7 @@ with st.form("prediction_form"):
     product_allocated_area = st.number_input('Product Allocated Area', min_value=0.004, max_value=0.298, value=0.06, step=0.001, format="%.3f")
     product_mrp = st.number_input('Product MRP', min_value=31.0, max_value=266.0, value=150.0, step=1.0)
     product_id_char = st.selectbox('Product ID Character', ['FD', 'NC', 'DR']) # Changed to Product_Id_char
-    product_category = st.selectbox('Product Category', ['Non-Perishables', 'Perishables'])
+    Product_Type_Category = st.selectbox('Product Category', ['Non-Perishables', 'Perishables'])
 
     st.subheader("Store Details")
     store_size = st.selectbox('Store Size', ['Medium', 'High', 'Small'])
@@ -42,7 +42,7 @@ with st.form("prediction_form"):
             "Store_Type": [store_type],
             "Product_Id_char": [product_id_char], # Changed to Product_Id_char
             "Store_Age_Years": [store_age_years],
-            "Product_Category": [product_category]
+            "Product_Type_Category": [Product_Type_Category]
         }
 
         try:
@@ -68,7 +68,6 @@ with st.form("prediction_form"):
         except Exception as e:
             st.error(f"An unexpected error occurred: {e}")
 
-st.markdown("--- # Section for batch prediction")
 st.subheader("Batch Prediction")
 
 # Allow users to upload a CSV file for batch prediction
