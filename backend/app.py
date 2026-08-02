@@ -3,7 +3,7 @@ import os
 import joblib  # For loading the serialized model
 import pandas as pd  # For data manipulation
 from flask import Flask, request, jsonify  # For creating the Flask API
-import numpy as np # For numerical operations (though not directly used for prediction output in SuperKart)
+import numpy as np # For numerical operations 
 from pathlib import Path  # For working with file paths
 # Initialize the Flask application
 app = Flask(__name__)
@@ -11,7 +11,7 @@ app = Flask(__name__)
 # Load the pre-trained model
 # IMPORTANT: Use a relative path for the model when deployed inside a Docker container
 saved_model_path = 'superkart_sales_model_v1_0.joblib'
-base_path=Path(__file__).resolve().parent 
+base_path=Path(__file__).resolve().parent
 model = joblib.load(os.path.join(base_path, saved_model_path))
 
 # Define a route for the home page (GET request)
